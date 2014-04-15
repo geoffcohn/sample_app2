@@ -1,8 +1,8 @@
-source 'https://rubygems.org'
+source 'https://rubygems.org' #geoff's changes
 ruby '2.0.0'
 #ruby-gemset=railstutorial_rails_4_0
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.0.2' 'this should be deleted eventually'
 gem 'bootstrap-sass', '2.3.2.0'
 gem 'faker', '1.1.2'
 
