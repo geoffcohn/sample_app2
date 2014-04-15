@@ -1,5 +1,17 @@
-<h1>Listing Users</h1>
+<% provide(:title, 'All users') %>
+<h1>All users</h1>
 
+<ul class="users">
+  <% @users.each do |user| %>
+    <li>
+      <%= gravatar_for user, size: 52 %>
+      <%= link_to user.name, user %>
+    </li>
+  <% end %>
+</ul>
+
+
+<!-- this was the complete file minus <h1> Lisitng Users </h1> 
 <table>
   <thead>
     <tr>
@@ -27,3 +39,5 @@
 <br>
 
 <%= link_to 'New User', new_user_path %>
+
+--> 
