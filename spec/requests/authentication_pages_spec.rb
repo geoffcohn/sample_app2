@@ -65,21 +65,35 @@ describe "Authentication" do
         end
 
         describe "when attempting to visit a protected page" do
-          before do
-            visit edit_user_path(user)
-            fill_in "Email",    with: user.email
-            fill_in "Password", with: user.password
-            click_button "Sign in"
+        before do
+          visit edit_user_path(user)
+          fill_in "Email",    with: user.email
+          fill_in "Password", with: user.password
+          click_button "Sign in"
+        end
+
+        describe "after signing in" do
+
+          it "should render the desired protected page" do
+            expect(page).to have_title('Edit user')
           end
 
-          describe "after signing in" do
+          describe "when signing in again" do
+            before do
+              click_link "Sign out"
+              visit signin_path
+              fill_in "Email",    with: user.email
+              fill_in "Password", with: user.password
+              click_button "Sign in"
+            end
 
-            it "should render the desired protected page" do
-              expect(page).to have_title('Edit user')
+            it "should render the default (profile) page" do
+              expect(page).to have_title(user.name)
             end
           end
         end
-    end
+      end
+    end #end for non-signed-in users
 
     describe "as wrong user" do
       let(:user) { FactoryGirl.create(:user) }
@@ -96,7 +110,7 @@ describe "Authentication" do
         before { patch user_path(wrong_user) }
         specify { expect(response).to redirect_to(root_url) }
       end
-    end
+    end #end as wrong user
 
     describe "as non-admin user" do
       let(:user) { FactoryGirl.create(:user) }
@@ -110,5 +124,15 @@ describe "Authentication" do
       end
     end
 
-  end
+    describe "as admin user"do
+      let(:admin) { FactoryGirl.create(:user) }
+
+      before { sign_in admin, no_capybara: true }
+
+      describe "submitting a DELETE request on thyself as admin" do
+        before { delete user_path(admin) }
+        it { should_not have_link('Delete') }
+      end
+    end
+  end # end authorizaiton
 end
