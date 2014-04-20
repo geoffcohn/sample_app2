@@ -7,6 +7,11 @@ FactoryGirl.define do
 
     factory :admin do
       admin true
-    end
-  end
-end
+    end #:admin
+  end #:user do
+
+  factory :micropost do
+    content "Loren ipsum"
+    user
+  end #:micropost do
+end #end class
