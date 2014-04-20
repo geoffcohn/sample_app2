@@ -153,6 +153,15 @@ describe User do
       expect(@user.microposts.to_a).to eq [newer_micropost, older_micropost]
     end
     
+    it "should destroy associated microposts" do
+      microposts = @user.microposts.to_a
+      @user.destroy
+      expect(microposts).not_to be_empty
+      microposts.each do |micropost|
+        expect(Micropost.where(id: micropost.id)).to be_empty
+      end
+    end #end it should destory associated microposts
+
   end #end micropost associations
 
 end # end class (user do)
