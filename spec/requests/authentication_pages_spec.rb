@@ -22,7 +22,7 @@ describe "Authentication" do
         before { click_link "Sign out" }
         it { should have_link('Sign in') }
       end
-    end
+    end# with valid info do
 
 
     describe "with invalid information" do
@@ -35,9 +35,9 @@ describe "Authentication" do
         before { click_link "Home" }
         it { should_not have_error_message('Invalid') }
       end
-    end
+    end #with invalid info do
     
-  end
+  end # signin do
 
   describe "authorization" do
 
@@ -62,37 +62,53 @@ describe "Authentication" do
             before { visit users_path }
             it { should have_title('Sign in') }
           end
-        end
+        end #in the Users controller do
 
         describe "when attempting to visit a protected page" do
-        before do
-          visit edit_user_path(user)
-          fill_in "Email",    with: user.email
-          fill_in "Password", with: user.password
-          click_button "Sign in"
-        end
-
-        describe "after signing in" do
-
-          it "should render the desired protected page" do
-            expect(page).to have_title('Edit user')
+          before do
+            visit edit_user_path(user)
+            fill_in "Email",    with: user.email
+            fill_in "Password", with: user.password
+            click_button "Sign in"
           end
 
-          describe "when signing in again" do
-            before do
-              click_link "Sign out"
-              visit signin_path
-              fill_in "Email",    with: user.email
-              fill_in "Password", with: user.password
-              click_button "Sign in"
+          describe "after signing in" do
+
+            it "should render the desired protected page" do
+              expect(page).to have_title('Edit user')
             end
 
-            it "should render the default (profile) page" do
-              expect(page).to have_title(user.name)
-            end
+            describe "when signing in again" do
+              before do
+                click_link "Sign out"
+                visit signin_path
+                fill_in "Email",    with: user.email
+                fill_in "Password", with: user.password
+                click_button "Sign in"
+              end
+
+              it "should render the default (profile) page" do
+                expect(page).to have_title(user.name)
+              end
+
+            end #when signin in again
+          end# after signin in
+
+        end# when attempting to visit a protected page
+
+        describe "in the Microposts controller" do
+
+          describe "submitting to the create action" do
+            before { post microposts_path }
+            specify { expect(response).to redirect_to(signin_path) }
           end
-        end
-      end
+
+          describe "submitting to the destroy action" do
+            before { delete micropost_path(FactoryGirl.create(:micropost)) }
+            specify { expect(response).to redirect_to(signin_path) }
+          end
+        end # in the Microposts controller
+      #end let   note: this really shouldn't be an extra indent
     end #end for non-signed-in users
 
     describe "as wrong user" do
@@ -135,4 +151,4 @@ describe "Authentication" do
       end
     end
   end # end authorizaiton
-end
+end # end class (authentication)
