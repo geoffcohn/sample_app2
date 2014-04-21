@@ -31,6 +31,15 @@ describe "Static pages" do
           expect(page).to have_selector("li##{item.id}", text: item.content)
         end
       end # should render the user's feed
+
+      #it "should show the correct number of micropost(s)" do
+       # if user.microposts(:count) = 1
+        #  page.should have_content("micropost")
+        #else
+         # page.should have_content("microposts")
+        #end
+      #end
+        
     end # for signed-in users
 
   end #Home page

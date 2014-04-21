@@ -25,7 +25,6 @@ class User < ActiveRecord::Base
   def feed
     #need to add following users too
     Micropost.where("user_id = ?", id)
-
   end  
 
   private 
