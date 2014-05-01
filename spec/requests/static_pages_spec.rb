@@ -19,6 +19,8 @@ describe "Static pages" do
 
     describe "for signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
+      let(:num_posts) { user.microposts.count }
+
       before do
         FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
         FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
@@ -39,6 +41,16 @@ describe "Static pages" do
          # page.should have_content("microposts")
         #end
       #end
+
+      it "should show the correct count of micropost(s)" do
+        proper_grammar = ""
+        if num_posts == 1
+          proper_grammar = num_posts.to_s + " micropost"
+        else
+          proper_grammar = num_posts.to_s + " microposts"
+        end
+        expect(page).to have_content(proper_grammar) 
+      end # count microposts
         
     end # for signed-in users
 
