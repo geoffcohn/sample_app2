@@ -20,10 +20,12 @@ describe "Static pages" do
     describe "for signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
       let(:num_posts) { user.microposts.count }
+      let(:user_2) { FactoryGirl.create(:user_2)}
 
       before do
         FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
         FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
+        # FactoryGirl.create(:micropost, user: user_2, content: "user_2 post")
         sign_in user
         visit root_path
       end
@@ -34,14 +36,6 @@ describe "Static pages" do
         end
       end # should render the user's feed
 
-      #it "should show the correct number of micropost(s)" do
-       # if user.microposts(:count) = 1
-        #  page.should have_content("micropost")
-        #else
-         # page.should have_content("microposts")
-        #end
-      #end
-
       it "should show the correct count of micropost(s)" do
         proper_grammar = ""
         if num_posts == 1
@@ -51,7 +45,10 @@ describe "Static pages" do
         end
         expect(page).to have_content(proper_grammar) 
       end # count microposts
-        
+      
+      #describe "should not show the delete link if the post isn't there" do
+       # it { should_not have_link('delete') }
+      #end # not showing delete links
     end # for signed-in users
 
   end #Home page
