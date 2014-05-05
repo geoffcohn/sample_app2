@@ -49,6 +49,17 @@ describe "Static pages" do
       #describe "should not show the delete link if the post isn't there" do
        # it { should_not have_link('delete') }
       #end # not showing delete links
+
+      describe "follower/following counts" do
+        let(:other_user) { FactoryGirl.create(:user) }
+        before do
+          other_user.follow!(user)
+          visit root_path
+        end
+
+        it { should have_link("0 following", href: following_user_path(user)) }
+        it { should have_link("1 followers", href: followers_user_path(user)) }
+      end # follower/following counts
     end # for signed-in users
 
   end #Home page
