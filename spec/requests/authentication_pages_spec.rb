@@ -118,7 +118,17 @@ describe "Authentication" do
             specify { expect(response).to redirect_to(signin_path) }
           end
         end # in the Microposts controller
-      #end let   note: this really shouldn't be an extra indent
+        describe "in the Relationships controller" do
+          describe "submitting to the create action" do
+            before { post relationships_path }
+            specify { expect(response).to redirect_to(signin_path) }
+          end
+
+          describe "submitting to the destroy action" do
+            before { delete relationship_path(1) }
+            specify { expect(response).to redirect_to(signin_path) }
+          end
+      end# in the relationships controller
     end #end for non-signed-in users
 
     describe "as wrong user" do
